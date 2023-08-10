@@ -15,7 +15,10 @@ func Init() {
 }
 
 func SetFormatter(logger *logrus.Logger) {
-	logger.SetFormatter(&logrus.JSONFormatter{
+	// Example //^ text-formatted log entry: 2023-08-05T10:00:00Z [INFO] Log message custom_field=value
+	// Example // * JSON-formatted log entry: {"time":"2023-08-05T10:00:00Z","severity":"info","message":"Log message","custom_field":"value"}
+
+	logger.SetFormatter(&logrus.JSONFormatter{ //
 		FieldMap: logrus.FieldMap{
 			logrus.FieldKeyTime:  "time",
 			logrus.FieldKeyLevel: "severity",

@@ -14,22 +14,23 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  /trainings:
-    get:
-      operationId: getTrainings
+  /trainings: #This specifies the URL path of the endpoint.
+    get: # HTTP method for this endpoint is GET.
+      operationId: getTrainings #assigns a unique identifier (operationId) to this operation.
       responses:
         '200':
           description: todo
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Trainings'
+              schema: #$ref keyword is used to reference other parts of the OpenAPI specification by their unique identifiers. In your case
+                $ref: '#/components/schemas/Trainings' #This is a JSON Reference to the definition of the schema for the "Trainings" response. It points to the schema defined in the 
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'   #
+                # 
 
     post:
       operationId: createTraining
@@ -170,15 +171,15 @@ paths:
                 $ref: '#/components/schemas/Error'
 
 components:
-  securitySchemes:
-    bearerAuth:
+  securitySchemes: #It defines the mechanism by which clients can provide credentials to prove their identity and gain access to protected resource
+    bearerAuth: #This is a unique identifier for the security scheme you're defining
       type: http
-      scheme: bearer
-      bearerFormat: JWT
-  schemas:
+      scheme: bearer # clients need to include a token in the request's Authorization header to authenticate themselves.
+      bearerFormat: JWT #The token will be in the form of Bearer <token>
+  schemas: # Defines different schemas used in your API
     Training:
       type: object
-      required: [uuid, user, userUuid, notes, time, canBeCancelled, moveRequiresAccept]
+      required: [uuid, user, userUuid, notes, time, canBeCancelled, moveRequiresAccept] #Includes properties
       properties:
         uuid:
           type: string
@@ -231,7 +232,7 @@ components:
         - slug
         - message
       properties:
-        slug:
+        slug: #This property represents a concise identifier or code that categorizes the type or category of the error. 
           type: string
         message:
           type: string

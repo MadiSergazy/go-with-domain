@@ -5,13 +5,15 @@ import (
 	"os"
 
 	"cloud.google.com/go/firestore"
+
 	"github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/internal/common/metrics"
+	"github.com/sirupsen/logrus"
+
 	"github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/internal/trainer/adapters"
 	"github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/internal/trainer/app"
 	"github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/internal/trainer/app/command"
 	"github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/internal/trainer/app/query"
 	"github.com/ThreeDotsLabs/wild-workouts-go-ddd-example/internal/trainer/domain/hour"
-	"github.com/sirupsen/logrus"
 )
 
 func NewApplication(ctx context.Context) app.Application {
@@ -21,11 +23,13 @@ func NewApplication(ctx context.Context) app.Application {
 	}
 
 	factoryConfig := hour.FactoryConfig{
-		MaxWeeksInTheFutureToSet: 6,
+		MaxWeeksInTheFutureToSet: 6, //: This parameter likely specifies the maximum number of weeks into the future for which the factory is allowed to create instances of the hour type.
 		MinUtcHour:               12,
 		MaxUtcHour:               20,
 	}
 
+	// 	^This struct represents a repository for querying available training dates and hours from Firestore.
+	// It provides methods for retrieving available hours within a specified time range and handling missing dates.
 	datesRepository := adapters.NewDatesFirestoreRepository(firestoreClient, factoryConfig)
 
 	hourFactory, err := hour.NewFactory(factoryConfig)

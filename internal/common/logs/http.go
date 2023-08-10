@@ -18,6 +18,9 @@ type StructuredLogger struct {
 	Logger *logrus.Logger
 }
 
+// This method is called for each incoming request and creates a new log entry for that request.
+//
+//	It extracts relevant information from the request (such as HTTP method, remote address, URI, etc.), enhances the logger with this information
 func (l *StructuredLogger) NewLogEntry(r *http.Request) middleware.LogEntry {
 	entry := &StructuredLoggerEntry{Logger: logrus.NewEntry(l.Logger)}
 	logFields := logrus.Fields{}
